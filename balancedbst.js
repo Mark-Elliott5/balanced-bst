@@ -74,5 +74,17 @@ const insertNode = (value, tree) => {
     return tree;
 }
 
+const findNode = (value, tree) => {
+    if (tree == null) {
+        return 'Value not found';
+    } if (tree.data === value) {
+        return tree;
+    } if (value > tree.data) {
+        findNode(value, tree.right);
+    } else {
+        findNode(value, tree.left);
+    }
+}
+
 const test = Tree([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
 prettyPrint(test);
