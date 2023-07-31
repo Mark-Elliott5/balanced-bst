@@ -51,7 +51,6 @@ const deleteNode = (value, tree) => {
         tree.data = getMinValue(tree.right);
         tree.right = deleteNode(tree.data, tree.right);
     }
-    prettyPrint(tree);
     return tree;
 }
 
@@ -62,6 +61,17 @@ const getMinValue = (tree) => {
         tree = tree.left;
     }
     return minValue;
+}
+
+const insertNode = (value, tree) => {
+    if (tree == null) {
+        return Node(value);
+    } if (value > tree.data) {
+        tree.right = insertNode(value, tree.right);
+    } else {
+        tree.left = insertNode(value, tree.left);
+    }
+    return tree;
 }
 
 const test = Tree([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
