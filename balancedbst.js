@@ -187,6 +187,16 @@ const Tree = (array) => {
         return visited;
     }
 
+    const height = (root = getRoot()) => {
+        if (root) {
+            const leftHeight = height(root.left);
+            const rightHeight = height(root.right);
+            return leftHeight > rightHeight ? leftHeight + 1 : rightHeight + 1;
+        } else {
+            return -1;
+        }
+    }
+
     return { root,
         deleteNode,
         insertNode,
@@ -198,6 +208,7 @@ const Tree = (array) => {
         stackPreorder,
         inorder,
         stackInorder,
+        height,
      }
 }
 
@@ -224,7 +235,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
 };
 
-const test = Tree([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
+const test = Tree([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]);
 prettyPrint(test.root);
 
 
