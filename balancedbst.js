@@ -130,10 +130,26 @@ const Tree = (array) => {
             visited.push(preorder(callback, root.right));
         }
         if (callback) {
-            callback(root.data)
+            callback(root.data);
         } else {
             return visited.flat();
         }
+    }
+
+    const stackPreorder = (callback = null) => {
+        const stack = [getRoot()];
+        const visited = [];
+        while (stack.length) {
+            const root = stack.pop();
+            visited.push(root.data);
+            if (callback) {
+                callback(root.data);
+            } if (root.right) {
+                stack.push(root.right);
+            } if (root.left) {
+                stack.push(root.left);
+            }
+        } return visited;
     }
 
     const inorder = (callback = null, root = getRoot()) => {
@@ -144,12 +160,31 @@ const Tree = (array) => {
         visited.push(root.data);
         if (root.right) {
             visited.push(inorder(callback, root.right));
-        }
-        if (callback) {
+        } if (callback) {
             callback(root.data)
         } else {
             return visited.flat();
         }
+    }
+
+    const stackInorder = (callback = null) => {
+        const stack = [];
+        const visited = [];
+        let root = getRoot();
+        while (root || stack.length > 0) {
+            if (root) {
+                stack.push(root);
+                root = root.left;
+            } else {
+                root = stack.pop();
+                visited.push(root.data);
+                root = root.right;
+                if (callback) {
+                    callback(root.data);
+                }
+            }
+        }
+        return visited;
     }
 
     return { root,
@@ -160,7 +195,9 @@ const Tree = (array) => {
         postorder,
         stackPostorder,
         preorder,
+        stackPreorder,
         inorder,
+        stackInorder,
      }
 }
 
@@ -189,3 +226,54 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 const test = Tree([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
 prettyPrint(test.root);
+
+
+
+function inorderTraversal(root) {
+    const stack = [];
+    const result = [];
+  
+    let current = root;
+  
+    while (current || stack.length > 0) {
+      while (current) {
+        stack.push(current);
+        current = current.left;
+      }
+  
+      current = stack.pop();
+      result.push(current.val);
+  
+      current = current.right;
+    }
+  
+    return result;
+  }
+
+  function preorderTraversal(root) {
+    const stack = [];
+    const result = [];
+  
+    if (!root) {
+      return result;
+    }
+  
+    stack.push(root);
+  
+    while (stack.length > 0) {
+      const current = stack.pop();
+      result.push(current.val);
+  
+      // Push right child first since it will be processed after the left child
+      if (current.right) {
+        stack.push(current.right);
+      }
+  
+      if (current.left) {
+        stack.push(current.left);
+      }
+    }
+  
+    return result;
+  }
+  
