@@ -91,10 +91,10 @@ const Tree = (array) => {
 
     const postorder = (callback = null, root = getRoot()) => {
         const visited = [];
-        if (root.left != null) {
+        if (root.left) {
             visited.push(postorder(callback, root.left));
         }
-        if (root.right != null) {
+        if (root.right) {
             visited.push(postorder(callback, root.right));
         }
         visited.push(root.data);
@@ -120,6 +120,38 @@ const Tree = (array) => {
         } return visited;
     }
 
+    const preorder = (callback = null, root = getRoot()) => {
+        const visited = [];
+        visited.push(root.data);
+        if (root.left) {
+            visited.push(preorder(callback, root.left));
+        }
+        if (root.right) {
+            visited.push(preorder(callback, root.right));
+        }
+        if (callback) {
+            callback(root.data)
+        } else {
+            return visited.flat();
+        }
+    }
+
+    const inorder = (callback = null, root = getRoot()) => {
+        const visited = [];
+        if (root.left) {
+            visited.push(inorder(callback, root.left));
+        }
+        visited.push(root.data);
+        if (root.right) {
+            visited.push(inorder(callback, root.right));
+        }
+        if (callback) {
+            callback(root.data)
+        } else {
+            return visited.flat();
+        }
+    }
+
     return { root,
         deleteNode,
         insertNode,
@@ -127,6 +159,8 @@ const Tree = (array) => {
         levelOrder,
         postorder,
         stackPostorder,
+        preorder,
+        inorder,
      }
 }
 
