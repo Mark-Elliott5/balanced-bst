@@ -197,6 +197,18 @@ const Tree = (array) => {
         }
     }
 
+    const depth = (value, root = getRoot()) => {
+        if (root == null) {
+            return 'Value not found';
+        } if (root.data === value) {
+            return 0;
+        } if (value > root.data) {
+            return depth(value, root.right)+1;
+        } else {
+            return depth(value, root.left)+1;
+        }
+    }
+
     return { root,
         deleteNode,
         insertNode,
@@ -209,6 +221,7 @@ const Tree = (array) => {
         inorder,
         stackInorder,
         height,
+        depth,
      }
 }
 
@@ -237,54 +250,4 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 const test = Tree([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]);
 prettyPrint(test.root);
-
-
-
-function inorderTraversal(root) {
-    const stack = [];
-    const result = [];
-  
-    let current = root;
-  
-    while (current || stack.length > 0) {
-      while (current) {
-        stack.push(current);
-        current = current.left;
-      }
-  
-      current = stack.pop();
-      result.push(current.val);
-  
-      current = current.right;
-    }
-  
-    return result;
-  }
-
-  function preorderTraversal(root) {
-    const stack = [];
-    const result = [];
-  
-    if (!root) {
-      return result;
-    }
-  
-    stack.push(root);
-  
-    while (stack.length > 0) {
-      const current = stack.pop();
-      result.push(current.val);
-  
-      // Push right child first since it will be processed after the left child
-      if (current.right) {
-        stack.push(current.right);
-      }
-  
-      if (current.left) {
-        stack.push(current.left);
-      }
-    }
-  
-    return result;
-  }
   
