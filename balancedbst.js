@@ -90,7 +90,7 @@ const Tree = (array) => {
     }
 
     const postorder = (callback = null, root = getRoot()) => {
-        let visited = [];
+        const visited = [];
         if (root.left != null) {
             visited.push(postorder(callback, root.left));
         }
@@ -101,8 +101,23 @@ const Tree = (array) => {
         if (callback) {
             callback(root.data)
         } else {
-            return visited.flat(Infinity);
+            return visited.flat();
         }
+    }
+
+    const stackPostorder = (callback = null) => {
+        const stack = [getRoot()];
+        const visited = [];
+        while (stack.length) {
+            const root = stack.pop();
+            if (root.left) {
+                stack.push(root.left);
+            } if (root.right) {
+                stack.push(root.right);
+            } if (callback) {
+                callback(root.data);
+            } visited.unshift(root.data)
+        } return visited;
     }
 
     return { root,
@@ -111,6 +126,7 @@ const Tree = (array) => {
         findNode,
         levelOrder,
         postorder,
+        stackPostorder,
      }
 }
 
