@@ -75,18 +75,33 @@ const Tree = (array) => {
         queue.push(root)
         while (queue.length > 0) {
             visited.push(queue[0].data);
-            if (queue[0].left) {
+            if (callback) {
+                callback(queue[0].data)
+            } if (queue[0].left) {
                 queue.push(queue[0].left);
-            }
-            if (queue[0].right) {
+            } if (queue[0].right) {
                 queue.push(queue[0].right);
             }
             queue.shift();
         }
-        if (callback) {
-            callback(visited);
-        } else {
+        if (!callback) {
             return visited;
+        }
+    }
+
+    const postorder = (callback = null, root = getRoot()) => {
+        let visited = [];
+        if (root.left != null) {
+            visited.push(postorder(callback, root.left));
+        }
+        if (root.right != null) {
+            visited.push(postorder(callback, root.right));
+        }
+        visited.push(root.data);
+        if (callback) {
+            callback(root.data)
+        } else {
+            return visited.flat(Infinity);
         }
     }
 
@@ -95,6 +110,7 @@ const Tree = (array) => {
         insertNode,
         findNode,
         levelOrder,
+        postorder,
      }
 }
 
