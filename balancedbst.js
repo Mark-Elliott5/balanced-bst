@@ -36,7 +36,7 @@ const Tree = (array) => {
         return root;
     }
     
-    const getMinValue = () => {
+    const getMinValue = (root) => {
         let minValue = root.data;
         while (root.left) {
             minValue = root.left.data;
@@ -209,6 +209,17 @@ const Tree = (array) => {
         }
     }
 
+    const isBalanced = (root = getRoot()) => {
+        const left = height(root.left);
+        const right = height(root.right);
+        const diff = left-right;
+        if (diff >= -1 && diff <= 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     return { root,
         deleteNode,
         insertNode,
@@ -222,6 +233,7 @@ const Tree = (array) => {
         stackInorder,
         height,
         depth,
+        isBalanced,
      }
 }
 
