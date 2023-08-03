@@ -3,6 +3,9 @@ const Node = (data, left = null, right = null) => {
 }
 
 const Tree = (array) => {
+    if (!array || !Array.isArray(array)) {
+        return;
+    }
     
     const buildTree = (array) => {
         if (array.length === 0) {
@@ -233,9 +236,6 @@ const Tree = (array) => {
         setRoot(buildTree(newRoot));
     }
 
-    if (!array || !Array.isArray(array)) {
-        return;
-    }
     const sortedArray = array.sort((a, b) => a - b);
     const filteredArray = sortedArray.filter((value, index) => sortedArray.indexOf(value) === index);
     let root = buildTree(filteredArray);
@@ -274,6 +274,35 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
 };
 
-const test = Tree([1,2,3,4,5,6,7,8]);
+// Verification
+
+const getRandomIntUnder100 = () => {
+    return Math.floor(Math.random() * (Math.random() * 99)) + 1;
+}
+
+const createRandomArray = () => {
+    // returns array of random length with random elements both in range 1-100
+    const array = Array.from({ length: getRandomIntUnder100() }, () => getRandomIntUnder100())
+    return array;
+}
+
+const test = Tree(createRandomArray());
 prettyPrint(test.getRoot());
-  
+console.log(`Tree should be balanced. Tree is ${test.isBalanced() 
+    ? 'balanced' : `unbalanced`}.`)
+console.log(`Level order:\n${test.levelOrder()}`);
+console.log(`Preorder:\n${test.preorder()}`);
+console.log(`Postorder:\n${test.postorder()}`);
+console.log(`Inorder:\n${test.inorder()}`);
+test.insertNode(getRandomIntUnder100() + 100);
+test.insertNode(getRandomIntUnder100() + 100);
+test.insertNode(getRandomIntUnder100() + 100);
+console.log(`Tree is most likely to be unbalanced. Tree is ${test.isBalanced() 
+    ? 'balanced' : `unbalanced`}.`);
+test.rebalance();
+console.log(`Tree should be balanced. Tree is ${test.isBalanced() 
+    ? 'balanced' : `unbalanced`}.`);
+console.log(`Level order:\n${test.levelOrder()}`);
+console.log(`Preorder:\n${test.preorder()}`);
+console.log(`Postorder:\n${test.postorder()}`);
+console.log(`Inorder:\n${test.inorder()}`);
