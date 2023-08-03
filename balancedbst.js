@@ -3,15 +3,23 @@ const Node = (data, left = null, right = null) => {
 }
 
 const Tree = (array) => {
-    if (!array || !Array.isArray(array)) {
-        return;
+    
+    const buildTree = (array) => {
+        if (array.length === 0) {
+            return null;
+        }
+        const left = array.slice(0, Math.floor(array.length/2));
+        const value = array[Math.floor(array.length/2)]
+        const right = array.slice(Math.floor(array.length/2)+1);
+        return Node(value, buildTree(left), buildTree(right));
     }
-    const sortedArray = array.sort((a, b) => a - b);
-    const filteredArray = sortedArray.filter((value, index) => sortedArray.indexOf(value) === index);
-    const root = buildTree(filteredArray);
 
     const getRoot = () => {
         return root;
+    }
+
+    const setRoot = (newRoot) => {
+        root = newRoot;
     }
 
     const deleteNode = (value, root = getRoot()) => {
@@ -220,7 +228,20 @@ const Tree = (array) => {
         }
     }
 
-    return { root,
+    const rebalance = () => {
+        const newRoot = stackInorder();
+        setRoot(buildTree(newRoot));
+    }
+
+    if (!array || !Array.isArray(array)) {
+        return;
+    }
+    const sortedArray = array.sort((a, b) => a - b);
+    const filteredArray = sortedArray.filter((value, index) => sortedArray.indexOf(value) === index);
+    let root = buildTree(filteredArray);
+
+    const obj = {
+        getRoot,
         deleteNode,
         insertNode,
         findNode,
@@ -234,17 +255,10 @@ const Tree = (array) => {
         height,
         depth,
         isBalanced,
-     }
-}
-
-const buildTree = (array) => {
-    if (array.length === 0) {
-        return null;
+        rebalance,
     }
-    const left = array.slice(0, Math.floor(array.length/2));
-    const value = array[Math.floor(array.length/2)]
-    const right = array.slice(Math.floor(array.length/2)+1);
-    return Node(value, buildTree(left), buildTree(right));
+
+    return obj;
 }
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -260,6 +274,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
 };
 
-const test = Tree([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]);
-prettyPrint(test.root);
+const test = Tree([1,2,3,4,5,6,7,8]);
+prettyPrint(test.getRoot());
   
