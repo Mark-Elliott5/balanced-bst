@@ -189,10 +189,10 @@ const Tree = (array) => {
             } else {
                 root = stack.pop();
                 visited.push(root.data);
-                root = root.right;
                 if (callback) {
                     callback(root.data);
                 }
+                root = root.right;
             }
         }
         return visited;
